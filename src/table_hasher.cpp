@@ -8,8 +8,8 @@ namespace pline
     table_hasher::
     operator () (table_key const& key) const
     {
-        uint64_t h1 = std::hash <std::type_index> {} ( key.first );
-        uint64_t h2 = std::hash <std::type_index> {} ( key.second );
+        size_t h1 = std::hash <std::type_index> {} ( key.first );
+        size_t h2 = std::hash <std::type_index> {} ( key.second );
         return (h1 << 10) ^ h2;
     }
 }
