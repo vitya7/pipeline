@@ -135,6 +135,8 @@ catch (std::out_of_range const& ex)
     for(auto x : vi){ std::cout << x << " "; } std::cout << "\n";
     for(auto x : vo){ std::cout << x << " "; } std::cout << "\n";
 
+    std::cout << "git huit\n";
+
 	return 0;
 }
 
