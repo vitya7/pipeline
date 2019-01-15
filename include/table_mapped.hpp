@@ -2,5 +2,5 @@
 
 namespace pline
 {
-    using table_mapped = void (*) (any_range input, any_range output);
+    using table_mapped = void (*) (any_range const& input, any_range const& output);
 }

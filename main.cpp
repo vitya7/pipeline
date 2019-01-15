@@ -105,13 +105,15 @@
 
 using namespace pline;
 
+void table_copy ();
 void table_test ();
 void main_table_test ();
 
 int main ()
 {
+    table_copy ();
 //    table_test();
-    main_table_test ();
+//    main_table_test ();
 }
 
 template <class T>
@@ -120,7 +122,19 @@ void www (T &&) {
 }
 
 
+void table_copy ()
+{
+    std::valarray vi = {1, 2, 3, 4, 5};
+    std::valarray vo = {0, 0, 0, 0, 0, 0};
 
+    any_range irg = make_any_range( std::as_const(vi) );
+    any_range org = make_any_range( vo );
+
+    copy_range <int*, int*> :: copy ( debug_copy_tag{}, irg, org );    // throws
+
+    for(auto x : vi){ std::cout << x << " "; } std::cout << "\n";
+    for(auto x : vo){ std::cout << x << " "; } std::cout << "\n";
+}
 
 void main_table_test ()
 {
