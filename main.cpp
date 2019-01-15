@@ -111,9 +111,9 @@ void main_table_test ();
 
 int main ()
 {
-    table_copy ();
+//    table_copy ();
 //    table_test();
-//    main_table_test ();
+    main_table_test ();
 }
 
 template <class T>
@@ -139,7 +139,7 @@ void table_copy ()
 void main_table_test ()
 {
     std::valarray vi = {1, 2, 3, 4, 5};
-    std::valarray vo = {0, 0, 0, 0, 0, 0};
+    std::vector vo = {0, 0, 0, 0, 0, 0};
 
     any_range irg = make_any_range( vi );
     any_range org = make_any_range( vo );
