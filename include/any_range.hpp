@@ -45,4 +45,10 @@ namespace pline
     {
         return { std::begin(x), std::end(x) };
     }
+
+    template <class It>
+    any_range make_any_range (It b, It e)
+    {
+        return { std::move(b), std::move(e) };
+    }
 }
