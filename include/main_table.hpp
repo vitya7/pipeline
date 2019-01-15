@@ -9,7 +9,6 @@
 namespace pline
 {
 
-
     class main_table : public copy_overload_table
     {
     public :

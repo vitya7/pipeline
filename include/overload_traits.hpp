@@ -51,7 +51,6 @@ namespace pline
                         );
         };
 
-
         //////////////////////////////////////////////////////////////
         template <class T, template <class> class ... C>
         struct get_containers_const_iterators
@@ -72,7 +71,6 @@ namespace pline
                             )
                         );
         };
-
 
         //////////////////////////////////////////////////////////////
         template <class ... T>

@@ -71,5 +71,4 @@ namespace pline
         static main_table table;
         return table;
     }
-
 }
