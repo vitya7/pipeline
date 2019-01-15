@@ -9,22 +9,20 @@
 
 namespace pline
 {
-    template <class T1, class T2>
+    template <class It1, class It2>
     struct copy_range
     {
         static void copy (any_range input, any_range output);
     };
 
-    template <class T1, class T2>
+    template <class It1, class It2>
     void
-    copy_range <T1, T2> :: copy (any_range input, any_range output)
+    copy_range <It1, It2> :: copy (any_range input, any_range output)
     {
     try
     {
-        auto i_begin = std::any_cast <T1> ( std::begin(input) );
-        auto i_end   = std::any_cast <T1> ( std::end(input) );
-
-        auto o_begin = std::any_cast <T2> ( std::begin(output) );
+        auto [i_begin, i_end] = input.unpack <It1> ();
+        auto [o_begin, o_end] = output.unpack <It2> ();
 
         std::copy(i_begin, i_end, o_begin);
     }
@@ -33,4 +31,5 @@ namespace pline
         std::cerr << "copy_range fail : " << ex.what() << std::endl;
     }
     };
+
 }

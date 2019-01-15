@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <any>
+#include <utility>
 #include <iterator>
 
 namespace pline
@@ -20,11 +21,24 @@ namespace pline
         std::any begin () const;
         std::any end () const;
 
+        template <class It>
+        std::pair<It, It> unpack () const;
+
     private:
 
         std::any m_begin;
         std::any m_end;
     };
+
+    template <class It>
+    std::pair<It, It>
+    any_range::
+    unpack () const
+    {
+        return { std::any_cast <It> (begin())
+               , std::any_cast <It> (end()) };
+    }
+
 
     template <class T>
     any_range make_any_range (T && x)
