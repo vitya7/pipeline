@@ -19,8 +19,8 @@ namespace pline
 
         void execute () override;
 
-        T &      data ();
-        T const& data () const;
+        T &            data ();
+        T const& const_data () const;
 
     private :
 
@@ -84,7 +84,7 @@ namespace pline
     template <class T>
     T const&
     layer_model <T>::
-    data () const
+    const_data () const
     {
         return m_data;
     }

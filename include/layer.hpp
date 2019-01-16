@@ -64,6 +64,6 @@ namespace pline
         static_assert ( std::is_same_v < std::decay_t <Self>, Self >
                       , "Self have to be non reference or/and cv-qualified" );
 
-        return dynamic_cast <layer_model <Self> const *> (m_self.get()) -> data();
+        return dynamic_cast <layer_model <Self> *> (m_self.get()) -> const_data();
     }
 }

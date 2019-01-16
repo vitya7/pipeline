@@ -81,14 +81,15 @@ void layer_test ()
     KEK kek {3, 3};
     kek.input() = {1, 2, 3};
 
-    layer lay (kek);
+    layer lay {kek};
     lay.get <KEK> ().input() = {3, 4, 1};
 
     kek.execute();
     lay.execute();
 
+
     std::cout << kek;
-    std::cout << lay.get <KEK> ();
+    std::cout << std::as_const(lay).get <KEK> ();
 try
 {
     main_table::get().invoke ( lay.output() , lay.input() );
