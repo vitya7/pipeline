@@ -5,104 +5,53 @@
 
 #include "include/copy_range.hpp"
 
+#include "include/layer.hpp"
+
+
 
 #include <iostream>
+
+#include <algorithm>
+#include <numeric>
+
 #include <valarray>
-#include <iterator>
-#include <memory>
-#include <exception>
-#include <utility>
-
-
-//namespace pline
-//{
-//
-//class layer_concept
-//{
-//public :
-//
-//	virtual ~layer_concept () = default;
-//
-//	virtual any_range input  () = 0;
-//	virtual any_range input  () const = 0;
-//
-//	virtual any_range output () = 0;
-//	virtual any_range output () const = 0;
-//
-//	virtual void execute () = 0;
-//};
-//
-//template <class T>
-//class model : public layer_concept
-//{
-//public :
-//
-//	model (T x) : m_data (move(x)) {}
-//
-//	any_range input ()       override;
-//	any_range input () const override;
-//
-//	any_range output ()       override;
-//	any_range output () const override; // { return make_any_range( m_data.output() ); }
-//
-//    void execute () override; // { m_data.execute(); }
-//
-//    T &      data ();
-//    T const& data () const;
-//
-//private :
-//
-//	T m_data;
-//};
-//
-//class layer
-//{
-//public :
-//
-//    template <class T>
-//    layer (T x)
-//        : m_self ( std::move(x) )
-//    {
-//        // empty
-//    }
-//
-//    template <class Self>
-//    Self& get ()
-//    {
-//        return dynamic_cast <model <Self> *> (m_self.get()) -> data();
-//    }
-//
-//    template <class Self>
-//    Self const& get () const
-//    {
-//        return dynamic_cast <model <Self> const *> (m_self.get()) -> data();
-//    }
-//
-//    any_range input ();
-//    any_range input () const;
-//
-//    any_range output ();
-//    any_range output () const;
-//
-//    void execute ();
-//
-//	bool must_copy_input ();
-//	void must_copy_input (bool);
-//
-//private :
-//
-//	bool m_must_copy_input;
-//
-//    std::shared_ptr <layer_concept> m_self;
-//};
-//
-//
-//
-//}
-
 #include <vector>
-#include <valarray>
 #include <set>
+
+
+struct KEK
+{
+    std::vector<int> m_in, m_out;
+
+    KEK (size_t n_in, size_t n_out)
+        : m_in  (n_in)
+        , m_out (n_out)
+    {}
+
+    auto &      input ()       { return m_in; }
+    auto const& input () const { return m_in; }
+
+    auto &      output ()       { return m_out; }
+    auto const& output () const { return m_out; }
+
+    void execute ()
+    {
+        auto sum = std::accumulate( m_in.begin(), m_in.end(), 0 );
+
+        std::fill( m_out.begin(), m_out.end(), sum );
+    }
+};
+
+std::ostream& operator << (std::ostream& os, KEK const& kek)
+{
+    os << "KEK : \n";
+    os << "   input  : ";
+    for(auto const& x : kek.input()) { os << x << " "; } os << "\n";
+    os << "   output : ";
+    for(auto const& x : kek.output()) { os << x << " "; }
+    return os << "\n";
+}
+
 
 using namespace pline;
 
@@ -110,18 +59,51 @@ void table_copy ();
 void table_test ();
 void main_table_test ();
 
+void layer_test ();
+
 int main ()
 {
 //    table_copy ();
-//    table_test();
-    main_table_test ();
+//    table_test ();
+//    main_table_test ();
+
+    layer_test ();
 }
+
 
 template <class T>
 void www (T &&) {
     std::cout << __PRETTY_FUNCTION__ << "\n";
 }
 
+void layer_test ()
+{
+    KEK kek {3, 3};
+    kek.input() = {1, 2, 3};
+
+    layer lay (kek);
+    lay.get <KEK> ().input() = {3, 4, 1};
+
+    kek.execute();
+    lay.execute();
+
+    std::cout << kek;
+    std::cout << lay.get <KEK> ();
+try
+{
+    main_table::get().invoke ( lay.output() , lay.input() );
+}
+catch (std::exception const& ex)
+{
+    std::cerr << ex.what() << "\n";
+}
+
+    std::cout << "\n";
+    std::cout << lay.get <KEK> ();
+    lay.execute();
+    std::cout << lay.get <KEK> ();
+
+}
 
 void table_copy ()
 {
