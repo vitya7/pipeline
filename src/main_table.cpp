@@ -21,11 +21,9 @@ namespace pline
     main_table::
     insert_overloads ()
     {
-        if constexpr ( I1 == std::tuple_size_v < ItTupleInput > ) {
-            return;
-        }
-        else
-        if constexpr ( I2 == std::tuple_size_v < ItTupleOutput >) {
+        if constexpr ( I1 == std::tuple_size_v < ItTupleInput > ||
+                       I2 == std::tuple_size_v < ItTupleOutput > )
+        {
             return;
         }
         else

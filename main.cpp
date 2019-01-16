@@ -102,6 +102,7 @@
 
 #include <vector>
 #include <valarray>
+#include <set>
 
 using namespace pline;
 
@@ -138,15 +139,22 @@ void table_copy ()
 
 void main_table_test ()
 {
-    std::valarray vi = {1, 2, 3, 4, 5};
-    std::vector vo = {0, 0, 0, 0, 0, 0};
+    std::valarray <double> const vi = {1, 2, 4, 6, 8};
+    std::vector <int>       vo = {0, 0, 0, 0, 0, 0};
 
     any_range irg = make_any_range( vi );
     any_range org = make_any_range( vo );
 
     auto & mt = main_table::get();
 
+try
+{
     mt.invoke( irg, org );
+}
+catch (std::out_of_range const& ex)
+{
+    std::cerr << "invocation fail : " << ex.what() << std::endl;
+}
 
     for(auto x : vi){ std::cout << x << " "; } std::cout << "\n";
     for(auto x : vo){ std::cout << x << " "; } std::cout << "\n";
@@ -174,7 +182,7 @@ try
 }
 catch (std::out_of_range const& ex)
 {
-    std::cerr << "invocation1 fail : " << ex.what() << std::endl;
+    std::cerr << "invocation fail : " << ex.what() << std::endl;
 }
 
 

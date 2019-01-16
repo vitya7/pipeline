@@ -7,6 +7,10 @@ namespace pline
     namespace traits
     {
         //////////////////////////////////////////////////////////////
+        template <class ... T>
+        using tuple_cat_t = decltype ( std::tuple_cat ( std::declval <T> ()...) );
+
+        //////////////////////////////////////////////////////////////
         template <class> struct add_ptr {};
 
         template <class...T>
@@ -43,12 +47,7 @@ namespace pline
         template <template <class> class ... C, class ... T>
         struct get_containers_iterators < std::tuple <T...>, C... >
         {
-            using type = decltype
-                        (	std::tuple_cat
-                            (
-                                std::declval < get_containers_iterators_t <T, C...> > () ...
-                            )
-                        );
+            using type = tuple_cat_t < get_containers_iterators_t <T, C...>... > ;
         };
 
         //////////////////////////////////////////////////////////////
@@ -64,17 +63,8 @@ namespace pline
         template <template <class> class ... C, class ... T>
         struct get_containers_const_iterators < std::tuple <T...>, C... >
         {
-            using type = decltype
-                        (	std::tuple_cat
-                            (
-                                std::declval < get_containers_const_iterators_t <T, C...> > () ...
-                            )
-                        );
+            using type = tuple_cat_t < get_containers_const_iterators_t <T, C...>... > ;
         };
-
-        //////////////////////////////////////////////////////////////
-        template <class ... T>
-        using tuple_cat_t = decltype ( std::tuple_cat ( std::declval <T> ()...) );
 
         //////////////////////////////////////////////////////////////
     }
