@@ -17,4 +17,11 @@ namespace pline
         return m_end;
     }
 
+    std::type_info const&
+    any_range::
+    type () const
+    {
+        return m_begin.type();
+    }
+
 }

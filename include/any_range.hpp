@@ -21,6 +21,8 @@ namespace pline
         std::any begin () const;
         std::any end () const;
 
+        std::type_info const& type () const;
+
         template <class It>
         std::pair<It, It> unpack () const;
 
