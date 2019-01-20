@@ -22,14 +22,14 @@ namespace pline
     pipeline::
     output ()
     {
-        return m_layers.front().output();
+        return m_layers.back().output();
     }
 
     any_range
     pipeline::
     output () const
     {
-        return m_layers.front().output();
+        return m_layers.back().output();
     }
 
     void

@@ -91,7 +91,6 @@ catch (std::exception const& ex)
     std::cerr << "compilation fail : " << ex.what() << "\n";
 }
 
-
     p.layers().emplace_back( KEK{4, 4} );
     p.layers().emplace_back( KEK{6, 6} );
 
