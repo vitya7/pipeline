@@ -6,6 +6,7 @@
 #include "include/copy_range.hpp"
 
 #include "include/layer.hpp"
+#include "include/pipeline.hpp"
 
 
 
@@ -21,7 +22,7 @@
 
 struct KEK
 {
-    std::vector<int> m_in, m_out;
+    std::vector <int> m_in, m_out;
 
     KEK (size_t n_in, size_t n_out)
         : m_in  (n_in)
@@ -60,6 +61,7 @@ void table_test ();
 void main_table_test ();
 
 void layer_test ();
+void pipeline_test ();
 
 int main ()
 {
@@ -67,13 +69,46 @@ int main ()
 //    table_test ();
 //    main_table_test ();
 
-    layer_test ();
+    //layer_test ();
+    pipeline_test ();
 }
-
 
 template <class T>
 void www (T &&) {
     std::cout << __PRETTY_FUNCTION__ << "\n";
+}
+
+void pipeline_test ()
+{
+    pipeline p;
+
+try
+{
+    p.compile();
+}
+catch (std::exception const& ex)
+{
+    std::cerr << "compilation fail : " << ex.what() << "\n";
+}
+
+
+    p.layers().emplace_back( KEK{4, 4} );
+    p.layers().emplace_back( KEK{6, 6} );
+
+    auto & kek = p.layers()[0].get <KEK> () ;
+
+    std::vector <int> inp = {1, 2, 3, 4};
+    std::copy( inp.begin(), inp.end(), kek.input().begin() );
+
+    std::cout << kek << "\n\n";
+
+    p.compile();
+    p.execute();
+
+    for(auto & lay : p.layers())
+    {
+        std::cout << lay.get <KEK> () << "\n";
+    }
 }
 
 void layer_test ()

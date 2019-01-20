@@ -2,6 +2,8 @@
 
 #include "layer.hpp"
 
+#include "main_table.hpp"
+
 #include <vector>
 
 namespace pline
@@ -11,7 +13,6 @@ namespace pline
     public:
 
         using layers_t = std::vector <layer>;
-
 
         pipeline () = default;
 
@@ -26,11 +27,12 @@ namespace pline
         void compile ();
 
         layers_t &      layers ();
-        layers_t const& layers ();
+        layers_t const& layers () const;
 
     private:
 
-        transfer_data (layer &, layer &);
+        void transfer_data (layer &, layer &);
+
 
         layers_t m_layers;
 
