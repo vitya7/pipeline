@@ -32,6 +32,8 @@ namespace pline
 
         void invoke (any_range const&, any_range const&) const;
 
+        void clear ();
+
     private :
 
         table_type m_table;

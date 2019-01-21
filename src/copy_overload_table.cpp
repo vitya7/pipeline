@@ -31,4 +31,11 @@ namespace pline
 
         (*get_overload( key )) ( i, o );
     }
+
+    void
+    copy_overload_table::
+    clear ()
+    {
+        m_table.clear();
+    }
 }
