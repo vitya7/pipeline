@@ -38,7 +38,7 @@ namespace pline
     {
         auto first = m_layers.begin();
 
-        auto second = std::next( m_layers.begin() );
+        auto second = std::next( first );
 
         auto last = m_layers.end();
 
@@ -46,11 +46,11 @@ namespace pline
 
         for(; second != last; first++, second++)
         {
-            if(second -> must_copy_input())
+            if(second->must_copy_input())
             {
                 transfer_data( *first, *second );
             }
-            second -> execute();
+            second->execute();
         }
     }
 
@@ -63,21 +63,23 @@ namespace pline
             throw std::logic_error( "pipeline can't have zero number of layers" );
         }
 
+        m_copy_table.clear();
+
         auto first = m_layers.begin();
 
-        auto second = std::next( m_layers.begin() );
+        auto second = std::next( first );
 
         auto last = m_layers.end();
 
         for(; second != last; first++, second++)
         {
-            if(second -> must_copy_input())
+            if(second->must_copy_input())
             {
-                auto key = make_key( first->output().type(), second->output().type() );
+                auto key = make_key( first->output().type(), second->input().type() );
 
                 auto mapped = main_table::get().get_overload( key );
 
-                m_copy_table.insert_overload ( std::move( key ), std::move( mapped ) );
+                m_copy_table.insert_overload( std::move( key ), std::move( mapped ) );
             }
         }
     }

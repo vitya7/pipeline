@@ -80,34 +80,50 @@ void www (T &&) {
 
 void pipeline_test ()
 {
+//    pipeline p;
+//try
+//{
+//    p.compile();
+//}
+//catch (std::exception const& ex)
+//{
+//    std::cerr << "compilation fail : " << ex.what() << "\n";
+//}
+
     pipeline p;
 
-try
-{
-    p.compile();
-}
-catch (std::exception const& ex)
-{
-    std::cerr << "compilation fail : " << ex.what() << "\n";
-}
-
     p.layers().emplace_back( KEK{4, 4} );
-    p.layers().emplace_back( KEK{6, 6} );
+    p.layers().emplace_back( KEK{6, 3} );
 
     auto & kek = p.layers()[0].get <KEK> () ;
 
-    std::vector <int> inp = {1, 2, 3, 4};
-    std::copy( inp.begin(), inp.end(), kek.input().begin() );
-
-    std::cout << kek << "\n\n";
+    kek.input() = {1, 2, 3, 4};
 
     p.compile();
     p.execute();
 
-    for(auto & lay : p.layers())
-    {
-        std::cout << lay.get <KEK> () << "\n";
-    }
+    std::cout << p.layers()[0].get <KEK> () << "\n";
+    std::cout << p.layers()[1].get <KEK> () << "\n";
+
+    std::cout << "-----------------------------------------------\n";
+    p.layers().emplace_back( p );
+
+    kek.input() = {1, 2, 3, 4};
+    p.execute();
+
+    std::cout << p.layers()[0].get <KEK> () << "\n";
+    std::cout << p.layers()[1].get <KEK> () << "\n";
+
+    std::cout << "-----------------------------------------------\n";
+    p.layers().emplace_back ( p.layers().back() );
+
+    kek.input() = {1, 2, 3, 4};
+
+    p.execute();
+
+    std::cout << p.layers()[0].get <KEK> () << "\n";
+    std::cout << p.layers()[1].get <KEK> () << "\n";
+
 }
 
 void layer_test ()
