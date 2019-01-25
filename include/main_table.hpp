@@ -20,13 +20,16 @@ namespace pline
     private:
 
         main_table ();
+        ~main_table () = default;
 
-        main_table (main_table const&) = default;
-        main_table (main_table &&) = default;
+        main_table (main_table const&) = delete;
+        main_table (main_table &&) = delete;
+
+        main_table& operator = (main_table const&) = delete;
+        main_table& operator = (main_table &&) = delete;
 
         template <class ItTupleInput, class ItTupleOutput, size_t I1 = 0, size_t I2 = 0>
         void insert_overloads ();
-
     };
 
 }
