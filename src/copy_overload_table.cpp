@@ -27,7 +27,7 @@ namespace pline
     copy_overload_table::
     invoke (any_range const& i, any_range const& o) const
     {
-        key_type key = make_key( std::begin(i).type(), std::begin(o).type() );
+        key_type key = make_key( i.type(), o.type() );
 
         (*get_overload( key )) ( i, o );
     }
